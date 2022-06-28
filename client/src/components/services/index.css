@@ -1,0 +1,28 @@
+#upload-img-placeholder{
+    width:200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border:1px solid rgb(230,230,230); 
+    background: #cccccc;
+    margin-left:16px;
+}
+
+#product-description{
+    height:150px;
+}
+
+#submit-button{
+    float:right; 
+    background-color: rgb(30,120,2555);
+    color:#fff; 
+}
+
+#upload-image{
+    width:300px;
+    height:300px;
+    margin-left:16px; 
+    object-fit:contain;  /*가로세로비율을 맞춰주면서 이미지 설정 가능*/
+}
