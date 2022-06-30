@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Upload } from "antd";
 import axios from "axios";
 //useParams : get Unique Key, useNavigate : redirect.
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./index.css";
 
-const ServiceFormEdit = (props) => {
+const ServiceFormEdit = () => {
   const accessToken = localStorage.getItem("accessToken");
   const isAdmin = localStorage.getItem("isAdmin");
   console.log(accessToken);
@@ -23,18 +23,11 @@ const ServiceFormEdit = (props) => {
   }
 
   //(1) Declare useParams(), useNaviage()
-  console.log(props);
   const { id } = useParams(); //get content's unique number :id
-  console.log(id);
+  const [form] = Form.useForm();
 
-  //(2) Set up our state for the form.
-  const [formData, setFormData] = useState({
-    title: "",
-    cat: "",
-    price: "",
-    imageUrl: "",
-    description: "",
-  });
+  const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState(null);
 
   //Get the service using useEffect if there is id.
   //(3) select * from service where C_id = 'id'
@@ -43,41 +36,48 @@ const ServiceFormEdit = (props) => {
       const res = await axios.get(`/api/service/${id}`);
       const service = res.data;
       console.log(service);
-      //use the setFormData to set our state (formData)
-      setFormData({
+
+      //Use the setFieldsValue provided by antd to update
+      form.setFieldsValue({
         title: service.title,
         cat: service.cat,
         price: service.price,
-        imageUrl: service.imageUrl,
+        imageUrl: setImageUrl(service.imageUrl),
         description: service.description,
       });
     };
-
     getService(id);
   }, [id]);
 
-  //The setFormData function has been updated.
-  //Call the updated formdata
-  const { title, cat, price, imageUrl, description } = formData;
-
-  //(4)Print called data
-  //console.log(title + cat + price + imageUrl + description);
-
-  //const [imageUrl, setImageUrl] = useState(null);
-
+  console.log(imageUrl);
   //(5) Submit updated data to server.
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = (props) => {
+    console.log(props);
     axios
-      .post("/api/service/edit/:id", {
-        title: values.title,
-        description: values.description,
-        cat: values.cat,
-        price: parseInt(values.price),
-        imageUrl: imageUrl,
-      })
+      .put(
+        `/api/service/edit/${id}`,
+        {
+          title: props.title,
+          description: props.description,
+          cat: props.cat,
+          price: parseInt(props.price),
+          imageUrl: imageUrl,
+        },
+        {
+          //Place accessToken to header. logged user only access
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+            isAdmin: localStorage.getItem("isAdmin"),
+          },
+        }
+      )
       .then((result) => {
-        console.log(result);
+        if (result.data.error) {
+          console.log(result.data.error);
+        } else {
+          navigate("/services");
+          console.log(result);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -95,7 +95,7 @@ const ServiceFormEdit = (props) => {
     if (info.file.status === "done") {
       const response = info.file.response;
       const imageUrl = response.imageUrl;
-      //setImageUrl(imageUrl);
+      setImageUrl(imageUrl);
     }
   };
 
@@ -114,9 +114,9 @@ const ServiceFormEdit = (props) => {
           <div className="showcase-form">
             <h2>Edit Service</h2>
             {/* Form.Item "name" goes to the DB */}
-            <Form name="productImage" onFinish={onSubmit}>
+            <Form form={form} name="productImage" onFinish={onSubmit}>
               <Form.Item
-                name="upload"
+                name="imageUrl"
                 label={<div className="upload-label">Image</div>}
               >
                 {/* Used Upload from antd, and get the key which is "key" */}
@@ -143,16 +143,14 @@ const ServiceFormEdit = (props) => {
               </Form.Item>
 
               <Form.Item
-                label={<div className="upload-label">Category</div>}
                 name="cat"
+                label={<div className="upload-label">Category</div>}
                 rules={[{ required: false, message: "Please write Category" }]}
               >
-                {cat}
                 <Input
                   className="upload-name"
                   size="large"
                   placeholder="Please write Category"
-                  value={cat}
                 />
               </Form.Item>
 
@@ -161,12 +159,10 @@ const ServiceFormEdit = (props) => {
                 label={<div className="upload-label">Title</div>}
                 rules={[{ required: false, message: "Please write Title" }]}
               >
-                {title}
                 <Input
                   className="upload-name"
                   size="large"
                   placeholder="Please write Title"
-                  value={title}
                 />
               </Form.Item>
 
@@ -175,8 +171,7 @@ const ServiceFormEdit = (props) => {
                 label={<div className="upload-label">Price</div>}
                 rules={[{ required: false, message: "Please write Price" }]}
               >
-                {price}
-                <Input className="upload-price" size="large" value={price} />
+                <Input className="upload-price" size="large" />
               </Form.Item>
 
               <Form.Item
@@ -186,14 +181,12 @@ const ServiceFormEdit = (props) => {
                   { required: false, message: "Please write Description" },
                 ]}
               >
-                {description}
                 <Input.TextArea
                   size="large"
                   id="product-description"
                   showCount
                   maxLength={300}
                   placeholder="Please write Description"
-                  value={description}
                 />
               </Form.Item>
               <Form.Item>

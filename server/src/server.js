@@ -1,5 +1,6 @@
 //  Bring in express
 const express = require("express");
+
 const cors = require("cors");
 const db = require("./models");
 const config = require("./config/config");
@@ -16,6 +17,7 @@ const app = express();
 // Initialise middleware
 // Allow the server to parse incomming requests with JSON
 app.use(express.json());
+
 app.use(cors());
 // Allow the server to parse incomming request with url-encoded data(쿼리 스트링을 해석)
 app.use(express.urlencoded({ extended: true }));
