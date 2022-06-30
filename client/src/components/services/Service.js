@@ -1,25 +1,29 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 // import the Link component
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import ServiceBotton from "./ServiceBotton";
 
 const Service = () => {
   //get id using useParams
+
   const { id } = useParams();
   const [serviceOne, setServiceOne] = useState(null);
-  useEffect(function () {
-    axios
-      .get(`/api/service/${id}`)
-      .then(function (result) {
-        const serviceOne = result.data;
-        console.log(serviceOne);
-        setServiceOne(serviceOne);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }, []);
+  useEffect(
+    function () {
+      axios
+        .get(`/api/service/${id}`)
+        .then(function (result) {
+          const serviceOne = result.data;
+          console.log(serviceOne);
+          setServiceOne(serviceOne);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
+    [id]
+  );
 
   //if service is null, diplay loading.
   if (serviceOne == null) {
@@ -50,11 +54,8 @@ const Service = () => {
               </p>
               <p className="sm b500">AUD {serviceOne.price}</p>
               <p className="sm b500">{serviceOne.description}</p>
-              <div className="mainServicesBtn  py-2">
-                <button className="btn btn-secondary">
-                  <Link to={`/service/edit/${serviceOne.C_id}`}>Edit</Link>
-                </button>
-              </div>
+
+              <ServiceBotton id={serviceOne.C_id} service={serviceOne} />
             </div>
           </div>
         </div>

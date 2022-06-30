@@ -109,4 +109,22 @@ router.put("/service/edit/:id", async (req, res) => {
   res.send(service);
 });
 
+//delete
+router.delete("/service/:id", (req, res) => {
+  console.log("/api/service/:id - delete");
+  // Delete a service
+
+  // Sequelize function to delete a record. destroy. Service.destroy()
+  let id = req.params.id;
+  id = parseInt(id);
+  // test that we have the.
+  console.log("s-id: ", id);
+  Service.destroy({
+    where: {
+      C_id: id,
+    },
+  });
+  res.send(`Id: ${id} deleted`);
+});
+
 module.exports = router;
