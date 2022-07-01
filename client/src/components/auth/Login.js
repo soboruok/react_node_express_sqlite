@@ -21,16 +21,16 @@ const Login = () => {
         setAuthState(true); // changed setAuthState which is in located components/Header.js
         // save "accessToken" to sessionStorage
       } else {
-        //localStorage.setItem("loginId", loginId) : 값 할당하기
-        //localStorage.getItem("loginId") : 값 가져오기
-        //const savedLoginId = localStorage.getItem("accessToken"); 이렇게 가져다가 사용가능?
+        //localStorage.setItem("loginId", loginId) :
+        //localStorage.getItem("loginId") :
+        //const savedLoginId = localStorage.getItem("accessToken");
 
         localStorage.setItem("accessToken", response.data.token);
         localStorage.setItem("isAdmin", response.data.isAdmin);
         localStorage.setItem("email", response.data.email);
 
-        //document.location.href = "/"; //page refresh.
-        navigate("/"); //redirec to /serviceform //page refresh problem.
+        document.location.href = "/"; //page refresh.
+        //navigate("/"); //redirec to /serviceform //page refresh problem.
       }
       console.log(response.data);
     });

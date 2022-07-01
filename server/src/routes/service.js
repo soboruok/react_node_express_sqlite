@@ -89,7 +89,7 @@ router.get("/service/:id", async (req, res) => {
 });
 
 //Update
-router.put("/service/edit/:id", async (req, res) => {
+router.put("/service/edit/:id", validateToken, async (req, res) => {
   console.log("/api/service/edit/:id - put");
   // Edit a service
   // res.send('Edit - put');
