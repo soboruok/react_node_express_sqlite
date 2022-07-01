@@ -2,7 +2,7 @@ import axios from "axios";
 // import the Link component
 import { Link, useNavigate } from "react-router-dom";
 
-const ServiceBotton = (serviceOne) => {
+const ServiceBotton = (serviceOne, id) => {
   const accessToken = localStorage.getItem("accessToken");
   const isAdmin = localStorage.getItem("isAdmin");
   console.log(accessToken);
@@ -26,7 +26,13 @@ const ServiceBotton = (serviceOne) => {
       // Add in code if you want to delete the contact
       alert("Are you sure?");
 
-      const res = await axios.delete(`/api/service/${id}`);
+      const res = await axios.delete(`/api/service/${id}`, {
+        //Place accessToken to header. logged user only access
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+          isAdmin: localStorage.getItem("isAdmin"),
+        },
+      });
 
       if (res.data.success) {
         alert(res.data.msg);

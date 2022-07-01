@@ -110,7 +110,7 @@ router.put("/service/edit/:id", validateToken, async (req, res) => {
 });
 
 //delete
-router.delete("/service/:id", (req, res) => {
+router.delete("/service/:id", validateToken, (req, res) => {
   console.log("/api/service/:id - delete");
   // Delete a service
 
