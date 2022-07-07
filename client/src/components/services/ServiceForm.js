@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Upload } from "antd";
+import { Form, Input, Button, Upload, InputNumber } from "antd";
 
 import axios from "axios";
 import "./index.css";
@@ -147,7 +147,7 @@ const ServiceForm = () => {
                 label={<div className="upload-label">Price</div>}
                 rules={[{ required: true, message: "Please write Price" }]}
               >
-                <Input className="upload-price" size="large" />
+                <InputNumber className="upload-price" size="large" />
               </Form.Item>
 
               <Form.Item

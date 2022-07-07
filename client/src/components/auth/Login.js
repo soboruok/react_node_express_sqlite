@@ -29,8 +29,8 @@ const Login = () => {
         localStorage.setItem("isAdmin", response.data.isAdmin);
         localStorage.setItem("email", response.data.email);
 
-        document.location.href = "/"; //page refresh.
-        //navigate("/"); //redirec to /serviceform //page refresh problem.
+        //document.location.href = "/"; //page refresh.
+        navigate("/"); //redirec to /serviceform //page refresh problem.
       }
       console.log(response.data);
     });
