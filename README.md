@@ -3,8 +3,10 @@ Index Page
 
 
 Create, Read, Update, Delete Product Page
-![101](https://user-images.githubusercontent.com/23008248/177698620-d3f62e51-0976-4d24-9f7c-3afa5eda0476.PNG)
-![102](https://user-images.githubusercontent.com/23008248/177698625-a1987cae-4d8f-4b7f-b128-5c06cdb87e83.PNG)
+![201](https://user-images.githubusercontent.com/23008248/177698861-41b1fa4f-7e25-45cd-8584-09141947668a.PNG)
+
+![202](https://user-images.githubusercontent.com/23008248/177698873-0921e525-9bc0-4b33-8f33-07529aa809c1.PNG)
+
 
 Login, SigUp Page
 ![7](https://user-images.githubusercontent.com/23008248/177698379-cca466f3-bb29-4dfe-b276-04c1b2ec7790.PNG)
